@@ -5,6 +5,7 @@ from optparse import OptionGroup, OptionParser
 from time import sleep
 import HttpTransport
 import pyopencl as cl
+import signal
 import socket
 
 try:
@@ -69,6 +70,11 @@ if (options.device == -1 or options.device >= len(devices)):
 	for i in xrange(len(devices)):
 		print '[%d]\t%s' % (i, devices[i].name)
 	sys.exit()
+
+def signal_handler(signum, frame):
+	raise KeyboardInterrupt
+
+signal.signal(signal.SIGUSR1, signal_handler)
 
 miner = None
 try:
